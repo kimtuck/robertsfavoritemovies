@@ -64,7 +64,8 @@
     "not dead"
   ],
   "jest": {
-    "preset": "@vue/cli-plugin-unit-jest"
+    "preset": "@vue/cli-plugin-unit-jest",
+    "testMatch": ["**/*.unit.js"]
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
