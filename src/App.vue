@@ -1,16 +1,19 @@
 <template>
   <div id="app">
-    <roberts-favorite-movies />
+    <RobertsFavoriteMoviesPresenter />
   </div>
 </template>
 
 <script>
-import RobertsFavoriteMovies from "./components/RobertsFavoriteMovies.vue";
+import RobertsFavoriteMoviesPresenter from "./components/RobertsFavoriteMoviesPresenter.vue";
 
 export default {
   name: "App",
   components: {
-    RobertsFavoriteMovies,
+    RobertsFavoriteMoviesPresenter,
+  },
+  mounted() {
+    this.$store.dispatch("loadFavorite");
   },
 };
 </script>

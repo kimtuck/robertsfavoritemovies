@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import { getFavorite, saveFavorite } from "../api/api.js";
 
 Vue.use(Vuex);
 
@@ -28,8 +29,15 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    loadFavorite({ dispatch }) {
+      const favorite = getFavorite();
+      if (favorite) {
+        dispatch("select", favorite);
+      }
+    },
     select({ commit }, name) {
       commit("select", name);
+      saveFavorite(name);
     },
   },
   modules: {},
