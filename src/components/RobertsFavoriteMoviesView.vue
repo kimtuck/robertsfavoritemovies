@@ -42,7 +42,7 @@ export default {
       this.$emit("select", name);
     },
     imgUrl(movie) {
-      return require(`@/assets/${movie.art}.jpg`);
+      return `img/${movie.art}.jpg`;
     },
   },
 };

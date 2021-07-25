@@ -25,18 +25,17 @@ describe("MovieTile", () => {
       expect(wrapper.find("[data-q-name]").text()).toBe("Airplane");
     });
 
-    test.skip.each`
+    test.each`
       isFavorite | expected
       ${true}    | ${true}
       ${false}   | ${false}
     `(
-      "isFavorite: When isFavorite is $isFavorite, the radio button is checked: $expected",
+      "isFavorite: When isFavorite is $isFavorite, the tile indicates it is a favorite: $expected",
       async ({ isFavorite, expected }) => {
         const wrapper = await shallowMount(MovieTile, {
           propsData: { name, imgUrl, isFavorite },
         });
-        console.log(wrapper.find("[data-q-radio]").attributes());
-        expect(wrapper.find("[data-q-radio]").element.selected).toBe(expected);
+        expect(wrapper.find("div").classes("bg-gray-300")).toBe(expected);
       }
     );
   });
@@ -46,7 +45,7 @@ describe("MovieTile", () => {
       const wrapper = await shallowMount(MovieTile, {
         propsData: { name, imgUrl, isFavorite: false },
       });
-      await wrapper.find("[data-q-radio]").trigger("click");
+      await wrapper.find("div").trigger("click");
       expect(wrapper.emitted("select")).toBeTruthy();
       expect(wrapper.emitted("select")[0]).toStrictEqual([name]);
     });

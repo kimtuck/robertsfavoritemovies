@@ -83,7 +83,11 @@
     "preset": "@vue/cli-plugin-unit-jest",
     "testMatch": [
       "**/*.unit.js"
-    ]
+    ],
+       "moduleNameMapper": {
+      "^@assets/(.*)$": "<rootDir>/src/assets/$1"
+    }
+
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
