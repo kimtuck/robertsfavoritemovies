@@ -1,16 +1,17 @@
 <template>
   <div class="border-2 border-black p-4">
-    <img :src="imgUrl(movie)" />
+    <img data-q-img :src="imgUrl" />
     <span class="p-4">
       <input
+        data-q-radio
         class="border-0 w-full h-6"
         type="radio"
         name="movie"
-        :value="movie"
-        :checked="checked"
-        @change="select(movie)"
+        :value="name"
+        :checked="isFavorite"
+        @change="select(name)"
       />
-      <span class="ml-4 text-4xl">{{ movie.name }}</span>
+      <span data-q-name class="ml-4 text-4xl">{{ name }}</span>
     </span>
   </div>
 </template>
@@ -19,22 +20,22 @@
 export default {
   name: "MovieTile",
   props: {
-    movie: {
-      type: Object,
+    name: {
+      type: String,
       required: true,
     },
-    checked: {
+    imgUrl: {
+      type: String,
+      required: true,
+    },
+    isFavorite: {
       type: Boolean,
       default: false,
     },
   },
   methods: {
-    imgUrl(movie) {
-      return require(`@/assets/${movie.art}.jpg`);
-    },
-
-    select(movie) {
-      this.$emit("select", movie.name);
+    select(name) {
+      this.$emit("select", name);
     },
   },
 };

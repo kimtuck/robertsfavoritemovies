@@ -8,8 +8,9 @@
         v-for="movie in movies"
         :key="movie.name"
         class="w-1/2 m-4 center flex items-center"
-        :movie="movie"
-        :checked="checked(movie)"
+        :name="movie.name"
+        :imgUrl="imgUrl(movie)"
+        :isFavorite="isFavorite(movie)"
         @select="select"
       />
     </div>
@@ -34,11 +35,14 @@ export default {
     },
   },
   methods: {
-    checked(movie) {
+    isFavorite(movie) {
       return movie.name === this.favorite;
     },
     select(name) {
       this.$emit("select", name);
+    },
+    imgUrl(movie) {
+      return require(`@/assets/${movie.art}.jpg`);
     },
   },
 };
