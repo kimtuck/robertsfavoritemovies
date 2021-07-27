@@ -1,6 +1,5 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { getFavorite, saveFavorite } from "../api/api.js";
 
 Vue.use(Vuex);
 
@@ -23,21 +22,19 @@ export default new Vuex.Store({
     ],
     favorite: "The Matrix",
   },
+  getters: {
+    movies: (state) => state.movies,
+    favorite: (state) => state.favorite,
+  },
+
   mutations: {
     select(state, name) {
       this.state.favorite = name;
     },
   },
   actions: {
-    loadFavorite({ dispatch }) {
-      const favorite = getFavorite();
-      if (favorite) {
-        dispatch("select", favorite);
-      }
-    },
     select({ commit }, name) {
       commit("select", name);
-      saveFavorite(name);
     },
   },
   modules: {},

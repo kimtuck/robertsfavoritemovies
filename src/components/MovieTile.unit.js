@@ -1,28 +1,24 @@
-import { shallowMount } from "@vue/test-utils";
+import createWrapperFactory from "../../tests/unit/createWrapperFactory";
 import MovieTile from "./MovieTile.vue";
 
 describe("MovieTile", () => {
-  let name;
-  let imgUrl;
-
-  beforeEach(() => {
-    name = "Airplane";
-    imgUrl = "imageUrl";
+  const name = "Airplane!";
+  const imgUrl = "imgUrl";
+  const createWrapper = createWrapperFactory(MovieTile, {
+    name,
+    imgUrl,
+    isFavorite: false,
   });
 
   describe("props", () => {
-    test("imgUrl", async () => {
-      const wrapper = await shallowMount(MovieTile, {
-        propsData: { name, imgUrl, isFavorite: false },
-      });
+    test("renders correct image src for prop imgUrl", async () => {
+      const wrapper = await createWrapper();
       expect(wrapper.find("[data-q-img]").attributes("src")).toBe(imgUrl);
     });
 
-    test("name", async () => {
-      const wrapper = await shallowMount(MovieTile, {
-        propsData: { name, imgUrl, isFavorite: false },
-      });
-      expect(wrapper.find("[data-q-name]").text()).toBe("Airplane");
+    test("renders name for prop name", async () => {
+      const wrapper = await createWrapper();
+      expect(wrapper.find("[data-q-name]").text()).toBe(name);
     });
 
     test.each`
@@ -30,21 +26,17 @@ describe("MovieTile", () => {
       ${true}    | ${true}
       ${false}   | ${false}
     `(
-      "isFavorite: When isFavorite is $isFavorite, the tile indicates it is a favorite: $expected",
+      "renders the tile appearance as isFavorite: $expected when isFavorite prop is $isFavorite",
       async ({ isFavorite, expected }) => {
-        const wrapper = await shallowMount(MovieTile, {
-          propsData: { name, imgUrl, isFavorite },
-        });
+        const wrapper = await createWrapper({ isFavorite });
         expect(wrapper.find("div").classes("bg-gray-300")).toBe(expected);
       }
     );
   });
 
   describe("events", () => {
-    test('Emits event "select" with the name of the movie when the radio button is selected', async () => {
-      const wrapper = await shallowMount(MovieTile, {
-        propsData: { name, imgUrl, isFavorite: false },
-      });
+    test('When the tile is clicked, emits event "select" with the name of the movie', async () => {
+      const wrapper = await createWrapper();
       await wrapper.find("div").trigger("click");
       expect(wrapper.emitted("select")).toBeTruthy();
       expect(wrapper.emitted("select")[0]).toStrictEqual([name]);

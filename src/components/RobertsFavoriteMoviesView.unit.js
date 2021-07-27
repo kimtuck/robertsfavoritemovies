@@ -1,83 +1,55 @@
-import { shallowMount } from "@vue/test-utils";
+import createWrapperFactory from "../../tests/unit/createWrapperFactory";
 import RobertsFavoriteMoviesView from "./RobertsFavoriteMoviesView.vue";
 import MovieTile from "./MovieTile.vue";
+import { movies } from "../../tests/unit/data";
 
 describe("RobertsFavoriteMoviesView", () => {
+  const createWrapper = createWrapperFactory(RobertsFavoriteMoviesView, {
+    movies,
+    favorite: "",
+  });
+
   describe("props", () => {
-    test("renders a MovieTile for each movie", async () => {
-      const movies = [
-        { name: "one", art: "Airplane" },
-        { name: "two", art: "Ferris" },
-      ];
-      const wrapper = await shallowMount(RobertsFavoriteMoviesView, {
-        propsData: {
-          movies,
-          favorite: "",
-        },
-      });
+    test("renders MovieTile for each movie", async () => {
+      const wrapper = await createWrapper();
       expect(wrapper.findAllComponents(MovieTile).length).toBe(movies.length);
     });
+
     describe("MovieTile props", () => {
-      test("name", async () => {
-        const movies = [{ name: "one", art: "Airplane" }];
-        const wrapper = await shallowMount(RobertsFavoriteMoviesView, {
-          propsData: {
-            movies,
-            favorite: "",
-          },
-        });
+      test("passes name to the name prop", async () => {
+        const wrapper = await createWrapper();
         expect(wrapper.findComponent(MovieTile).props("name")).toBe(
           movies[0].name
         );
       });
-      test("imgUrl", async () => {
-        const movies = [{ name: "one", art: "Airplane" }];
-        const wrapper = await shallowMount(RobertsFavoriteMoviesView, {
-          propsData: {
-            movies,
-            favorite: "",
-          },
-        });
+
+      test("passes imgUrl to the imgUrl prop", async () => {
+        const wrapper = await createWrapper();
         expect(wrapper.findComponent(MovieTile).props("imgUrl")).toBe(
           "img/Airplane.jpg"
         );
       });
       test.each`
-        favorite | isFavorite
-        ${"one"} | ${true}
-        ${"two"} | ${false}
+        favorite          | isFavorite
+        ${movies[0].name} | ${true}
+        ${movies[1].name} | ${false}
       `(
-        'When movie name is "one" and favorite is $favorite, then isFavorite is $isFavorite',
+        "passes isFavorite as $isFavorite to isFavorite prop based on matching the first movie name to $favorite",
         async ({ favorite, isFavorite }) => {
-          const movies = [{ name: "one", art: "Airplane" }];
-          const wrapper = await shallowMount(RobertsFavoriteMoviesView, {
-            propsData: {
-              movies,
-              favorite,
-            },
-          });
-          expect(wrapper.findComponent(MovieTile).props("isFavorite")).toBe(
-            isFavorite
-          );
+          const wrapper = await createWrapper({ favorite });
+          expect(
+            wrapper.findAllComponents(MovieTile).at(0).props("isFavorite")
+          ).toStrictEqual(isFavorite);
         }
       );
     });
     describe("events", () => {
       test("When MovieTile emits select, emits select with the movie title", async () => {
-        const movies = [{ name: "one", art: "Airplane" }];
-        const wrapper = await shallowMount(RobertsFavoriteMoviesView, {
-          propsData: {
-            movies,
-            favorite: "",
-          },
-        });
+        const wrapper = await createWrapper();
         wrapper.findComponent(MovieTile).vm.$emit("select", "one");
         expect(wrapper.emitted("select")).toBeTruthy();
         expect(wrapper.emitted("select")[0]).toStrictEqual(["one"]);
       });
     });
   });
-  describe.skip("movie tiles", () => {});
-  describe.skip("props passed to child compnents", () => {});
-  describe.skip("events", () => {});
 });

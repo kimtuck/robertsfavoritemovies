@@ -2,28 +2,26 @@
   <RobertsFavoriteMoviesView
     :movies="movies"
     :favorite="favorite"
-    @select="select"
+    @select="selectMovie"
   />
 </template>
 
 <script>
 import RobertsFavoriteMoviesView from "./RobertsFavoriteMoviesView.vue";
+import { mapActions, mapGetters } from "vuex";
+
 export default {
   name: "RobertsFavoriteMoviesPresenter",
   components: {
     RobertsFavoriteMoviesView,
   },
   computed: {
-    movies() {
-      return this.$store.state.movies;
-    },
-    favorite() {
-      return this.$store.state.favorite;
-    },
+    ...mapGetters(["movies", "favorite"]),
   },
   methods: {
-    select(name) {
-      this.$store.dispatch("select", name);
+    ...mapActions(["select"]),
+    selectMovie(name) {
+      this.select(name);
     },
   },
 };

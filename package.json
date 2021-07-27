@@ -51,7 +51,8 @@
         "describe": true,
         "test": true,
         "expect":true,
-        "beforeEach": true
+        "beforeEach": true,
+        "jest": true
     },
     "overrides": [
       {
