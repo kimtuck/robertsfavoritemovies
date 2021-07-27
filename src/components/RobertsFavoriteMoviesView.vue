@@ -7,7 +7,7 @@
       <MovieTile
         v-for="movie in movies"
         :key="movie.name"
-        class="w-1/2 m-4 center flex items-center"
+        class="flex items-center w-1/2 m-4 center"
         :name="movie.name"
         :imgUrl="imgUrl(movie)"
         :isFavorite="isFavorite(movie)"
@@ -42,7 +42,7 @@ export default {
       this.$emit("select", name);
     },
     imgUrl(movie) {
-      return `img/${movie.art}.jpg`;
+      return `/img/${movie.art}.jpg`;
     },
   },
 };
