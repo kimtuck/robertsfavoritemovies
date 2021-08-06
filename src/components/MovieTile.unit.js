@@ -35,7 +35,7 @@ describe("MovieTile", () => {
   });
 
   describe("events", () => {
-    test('When the tile is clicked, emits event "select" with the name of the movie', async () => {
+    test('emits event "select" with the name of the movie when the tile is clicked, ', async () => {
       const wrapper = await createWrapper();
       await wrapper.find("div").trigger("click");
       expect(wrapper.emitted("select")).toBeTruthy();
