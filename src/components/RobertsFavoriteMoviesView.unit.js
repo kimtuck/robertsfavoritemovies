@@ -26,7 +26,7 @@ describe("RobertsFavoriteMoviesView", () => {
       test("passes imgUrl to the imgUrl prop", async () => {
         const wrapper = await createWrapper();
         expect(wrapper.findComponent(MovieTile).props("imgUrl")).toBe(
-          "img/Airplane.jpg"
+          "/img/Airplane.jpg"
         );
       });
       test.each`
