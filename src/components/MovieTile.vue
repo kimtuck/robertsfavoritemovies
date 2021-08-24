@@ -1,6 +1,6 @@
 <template>
   <div
-    class="border-2 border-black p-4"
+    class="p-4 border-2 border-black"
     :class="{ 'bg-gray-300': isFavorite }"
     @click="select"
   >
