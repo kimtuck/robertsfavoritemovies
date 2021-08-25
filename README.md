@@ -7,6 +7,7 @@ npm install
 
 ### Compiles and hot-reloads for development
 ```
+git checkout TestableComponents
 npm run serve
 ```
 
